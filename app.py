@@ -6,7 +6,7 @@ print("Alex: Type 'bye alex' if you want to end the chat.\n")
 
 while True:
 
-    # Taking input from user
+    # Taking input from user\name of user 
     user_message = input("SUSHANT: ").lower()
 
     # Greeting responses
