@@ -1,10 +1,3 @@
-# CODESOFT
-CodeSoft  Internship   Task
-Alex Chatbot 🤖
-
-A simple beginner-friendly rule-based chatbot made using Python.
-This chatbot replies to users based on predefined conditions using if-elif statements.
-
 📌 Project Overview
 
 Alex is a basic chatbot created for learning purposes and internship projects.
@@ -19,3 +12,4 @@ Exit option using bye
 
 🛠️ Technologies Used
 Python 
+
