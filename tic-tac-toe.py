@@ -1,139 +1,109 @@
-Board = [" " for _ in range(9)]
+# Simple Tic Tac Toe with AI
 
-def print_board():
-  print()
+board = [" "] * 9
 
-  for counter in range(0, 9, 3):
-    print(board[counter] + " | " + board[counter+1] + " | " + board[counter+2])
-    if counter < 6:
-      print("--+---+--")
 
-  print()
+# Print board
+def show():
 
-def check_winner(player):
+    for i in range(0, 9, 3):
 
-  winning_combinations = [
-      [0, 1, 2],
-      [3, 4, 5],
-      [6, 7, 8],
-      [0, 3, 6],
-      [1, 4, 7],
-      [2, 5, 8],
-      [0, 4, 8],
-      [2, 4, 6]
-  ]
+        print(board[i], "|", board[i+1], "|", board[i+2])
 
-  for combo in winning_combinations:
-    if (
-        board[combo[0]] == board[combo[1]] == board[combo[2]] == player
-    ):
-      return True
+        if i < 6:
+            print("--+---+--")
 
-  return False
+    print()
 
-def is_draw():
-  return " " not in board
 
-def minimax(isaiturn):
+# Check winner
+def winner(p):
 
-  if check_winner("O"):
-    return 1
+    wins = [
 
-  if check_winner("X"):
-    return -1
+        [0,1,2], [3,4,5], [6,7,8],
 
-  if is_draw():
-    return 0
+        [0,3,6], [1,4,7], [2,5,8],
 
-  if isaiturn:
+        [0,4,8], [2,4,6]
+    ]
 
-    best_score = -999
+    for w in wins:
 
-    for counter in range(9):
-      if board[counter] == " ":
-        board[counter] = "O"
-        score = minimax(False)
-        board[counter] = " "
-        bestscore = highest(bestscore, score)
+        if (
+            board[w[0]] == p and
+            board[w[1]] == p and
+            board[w[2]] == p
+        ):
 
-    return best_score
+            return True
 
-  else:
+    return False
 
-    best_score = 999
 
-    for counter in range(9):
-      if board[counter] == " ":
-        board[counter] = "X"
-        score = minimax(True)
-        board[counter] = " "
-        bestscore = least(bestscore, score)
+# Check draw
+def draw():
 
-    return best_score
+    return " " not in board
 
-def ai_move():
 
-  best_score = -999
-  best_move = -1
+# AI move
+def ai():
 
-  for counter in range(9):
-    if board[counter] == " ":
-      board[counter] = "O"
-      score = minimax(False)
-      board[counter] = " "
+    for i in range(9):
 
-      if score > best_score:
-        best_score = score
-        best_move = counter
+        if board[i] == " ":
 
-  board[best_move] = "O"
+            board[i] = "O"
+            return
 
-def human_move():
 
-  while True:
-    move = input("Enter position (1-9): ")
+# Position guide
+print("0 | 1 | 2")
+print("--+---+--")
+print("3 | 4 | 5")
+print("--+---+--")
+print("6 | 7 | 8")
 
-    if move.isdigit():
 
-      move = int(move) - 1
-
-      if 0 <= move < 9 and board[move] == " ":
-        board[move] = "X"
-        break
-      else:
-        print("That spot is already taken or invalid. Try again.")
-
-    else:
-      print("Please enter a valid number (1-9).")
-
-print("Welcome to Tic Tac Toe!")
-print("You are X and AI is O")
-
+# Main game
 while True:
 
-  print_board()
+    show()
 
-  human_move()
+    move = int(input("Enter position: "))
 
-  if check_winner("X"):
-    print_board()
-    print("You win! Nice job ")
-    break
+    if board[move] != " ":
 
-  if is_draw():
-    print_board()
-    print("It's a draw!")
-    break
+        print("Already taken!")
+        continue
 
-  print("\nAI is thinking...\length")
-  ai_move()
+    # Player move
+    board[move] = "X"
 
-  if check_winner("O"):
-    print_board()
-    print("AI wins! Try again.")
-    break
+    if winner("X"):
 
-  if is_draw():
-    print_board()
-    print("It's a draw!")
-    break
+        show()
+        print("You Win!")
+        break
+
+    if draw():
+
+        show()
+        print("Draw!")
+        break
+
+    # AI move
+    ai()
+
+    if winner("O"):
+
+        show()
+        print("AI Wins!")
+        break
+
+    if draw():
+
+        show()
+        print("Draw!")
+        break
