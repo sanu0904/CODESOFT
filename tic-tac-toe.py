@@ -1,4 +1,4 @@
-# Simple Tic Tac Toe with AI
+# Simple Tic Tac Toe with AI player alex
 
 board = [" "] * 9
 
@@ -47,7 +47,7 @@ def draw():
     return " " not in board
 
 
-# AI move
+# AI alex move
 def ai():
 
     for i in range(9):
@@ -93,13 +93,13 @@ while True:
         print("Draw!")
         break
 
-    # AI move
+    # AI alex move
     ai()
 
     if winner("O"):
 
         show()
-        print("AI Wins!")
+        print("AI alex Wins!")
         break
 
     if draw():
