@@ -1,97 +1,89 @@
-# Task 4 - Recommendation System
-# Content based filtering using movie genres
-# Idea: if A user like a movie it recommend the similar type of movie to the user.
+#movie recommendation system
 
-# sample dataset of movies (made this up manually for the project)
-movies = [
-    {"id": 1, "title": "The Dark Knight", "type": ["Action","Crime","Drama"]},
-    {"id": 2, "title": "Inception", "type": ["Action", "Sci-Fi", "Thriller"]},
-    {"id": 3, "title": "Interstellar", "type": ["Sci-Fi", "Drama", "Adventure"]},
-    {"id": 4, "title": "The Hangover", "type": ["Comedy"]},
-    {"id": 5, "title": "Superbad", "type": ["Comedy", "Teen"]},
-    {"id": 6, "title": "Titanic", "type": ["Romance", "Drama"]},
-    {"id": 7, "title": "The Notebook", "type": ["Romance", "Drama"]},
-    {"id": 8, "title": "John Wick", "type": ["Action", "Thriller"]},
-    {"id": 9, "title": "Mad Max: Fury Road", "type": ["Action", "Adventure", "Sci-Fi"]},
-    {"id": 10, "title": "Coco", "type": ["Animation", "Family", "Drama"]},
-    {"id": 11, "title": "Toy Story", "type": ["Animation", "Family", "Comedy"]},
-    {"id": 12, "title": "The Conjuring", "type": ["Horror", "Thriller"]},
-    {"id": 13, "title": "It", "type": ["Horror", "Thriller"]},
-    {"id": 14, "title": "La La Land", "type": ["Romance", "Drama", "Musical"]},
+
+
+movie_names = ["Gangs of Wasseypur","Kabir Singh","3 Idiots","Hera Pheri","Andaz Apna Apna","Kal Ho Naa Ho","Jab We Met","Pathaan","War","Bareilly Ki Barfi","Chhichhore","Stree","Bhool Bhulaiyaa","Tamasha"]
+
+movie_genres = [
+["Action","Crime","Drama"],
+["Action","Sci-Fi","Thriller"],
+["Sci-Fi","Drama","Adventure"],
+["Comedy"],
+["Comedy","Teen"],
+["Romance","Drama"],
+["Romance","Drama"],
+["Action","Thriller"],
+["Action","Adventure","Sci-Fi"],
+["Animation","Family","Drama"],
+["Animation","Family","Comedy"],
+["Horror","Thriller"],
+["Horror","Thriller"],
+["Romance","Drama","Musical"]
 ]
 
+print("==== Movies ====")
+print("List of movies:")
+print("")
 
-def get_movie_by_title(title):
-    for movie in movies:
-        if movie["title"].lower() == title.lower():
-            return movie
-    return None
+for x in range(len(movie_names)):
+	print(x+1,"-",movie_names[x])
 
+print("")
+user_movie = input(" Enter a movie you want to watch ")
+user_movie = user_movie.lower()
+user_movie = user_movie.strip()
 
-# this calculates how two movies are based on common type
-# simple approach -> count of overlapping genres
-def genre_similarity(type1, type2):
-    set1 = set(type1)
-    set2 = set(type2)
-    common = set1.intersection(set2)
-    return len(common)
+# find index of the movie user entered
+found_index = -1
+for x in range(len(movie_names)):
+	if movie_names[x].lower() == user_movie:
+		found_index = x
 
+if found_index == -1:
+	print("")
+	print("hmm couldnt find that movie")
+else:
+	target_genres = movie_genres[found_index]
+	target_name = movie_names[found_index]
 
-def recommend_movies(liked_title, top_n=3):
-    liked_movie = get_movie_by_title(liked_title)
+	print("")
+	print("Since you liked",target_name,", here are some recommendations:")
+	print("")
 
-    if liked_movie is None:
-        print(f"Sorry, '{liked_title}' not found in our database.")
-        return []
+	rec_names = []
+	rec_scores = []
 
-    scores = []
-    for movie in movies:
-        if movie["id"] == liked_movie["id"]:
-            continue  # don't recommend the same movie
+	for x in range(len(movie_names)):
+		if x == found_index:
+			continue
 
-        sim_score = type_similarity(liked_movie["type"], movie["type"])
-        if sim_score > 0:
-            scores.append((movie, sim_score))
+		score = 0
+		for g in movie_genres[x]:
+			if g in target_genres:
+				score = score+1
 
-    # sort by similarity score, highest first
-    scores.sort(key=lambda x: x[1], reverse=True)
+		if score > 0:
+			rec_names.append(movie_names[x])
+			rec_scores.append(score)
 
-    return scores[:top_n]
+	# need to sort these based on score, doing it manually
+	for a in range(len(rec_scores)):
+		for b in range(len(rec_scores)-1):
+			if rec_scores[b] < rec_scores[b+1]:
+				# swap scores
+				temp_score = rec_scores[b]
+				rec_scores[b] = rec_scores[b+1]
+				rec_scores[b+1] = temp_score
+				# swap names too (gotta keep them in sync)
+				temp_name = rec_names[b]
+				rec_names[b] = rec_names[b+1]
+				rec_names[b+1] = temp_name
 
+	if len(rec_names) == 0:
+		print("no recommendations found for this one")
+	else:
+		for x in range(len(rec_names)):
+			print("->",rec_names[x],"(score",rec_scores[x],")")
 
-def print_recommendations(liked_title):
-    print(f"\nBecause you liked '{liked_title}', you might also like:\n")
-    results = recommend_movies(liked_title)
-
-    if not results:
-        print("Couldn't find good recommendations for this movie.")
-        return
-
-    for movie, score in results:
-        print(f"- {movie['title']}  (type: {', '.join(movie['genres'])}, match score: {score})")
-
-
-def show_all_movies():
-    print("\nAvailable movies in our database:")
-    for movie in movies:
-        print(f"{movie['id']}. {movie['title']} - {', '.join(movie['type'])}")
-
-
-def main():
-    print("=== Simple Movie Recommendation System ===")
-    print("(Content-based filtering using type)")
-
-    show_all_movies()
-
-    while True:
-        user_input = input("\nEnter a movie title you liked (or 'quit' to exit): ")
-
-        if user_input.lower() == 'quit':
-            print("Thanks for using the recommender, bye!")
-            break
-
-        print_recommendations(user_input)
-
-
-if __name__ == "__main__":
-    main()
+print("")
+print("done")
