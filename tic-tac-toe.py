@@ -1,4 +1,4 @@
-# Simple Tic Tac Toe with AI player alex
+# Tic Tac Toe with AI player alex
 
 board = [" "] * 9
 
