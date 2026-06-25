@@ -14,3 +14,16 @@ Exit option using bye
 Python 
 
 📌 2 Project Overview
+
+movie recommendations system for recommending movies of same genre's to the user
+it have a sheet of movies in it thruoght which the system give the suggestion
+
+the project is easy to understand and perfect for suggestions and recommendations
+
+✨ Features
+sheet based suggestion
+recommend the movie on the basis of same genre's
+Exit using quit
+
+🛠️ Technologies Used
+python
