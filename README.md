@@ -5,7 +5,7 @@ It can respond to simple user messages like greetings, chatbot name, Developer n
 
 The project is easy to understand and perfect for interaction
 
-✨ Features
+✨ Features-
 Rule-based responses
 Interactive conversation
 Exit option using bye
@@ -20,7 +20,7 @@ it have a sheet of movies in it thruoght which the system give the suggestion
 
 the project is easy to understand and perfect for suggestions and recommendations
 
-✨ Features
+✨ Features-
 sheet based suggestion
 recommend the movie on the basis of same genre's
 Exit using quit
@@ -35,7 +35,7 @@ uses the Minimax algorithm, so it plays perfectly
 
 it will never lose (best you can do is draw).
 
-✨ Features
+✨ Features-
 Play Tic Tac Toe against an unbeatable AI (Minimax based)
 Console based, simple text interface — no extra setup needed
 Detects win, loss, and draw correctly every time
